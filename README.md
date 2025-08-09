@@ -9,11 +9,11 @@ A simple CLI tool written in Rust to organize files in a folder by their extensi
 
 ## Usage
 ```
-cargo run -- "C:\path\to\your\folder"
+cargo run
 ```
 
 ## Example
-Suppose your folder contains:
+Suppose your folder not empty and contains:
 ```
 photo.png
 report.pdf
@@ -29,6 +29,3 @@ txt/notes.txt
 ## Requirements
 - Rust (https://rust-lang.org)
 - Windows, Linux
-
-## Customization
-You can modify the code to group certain extensions into a single folder by editing the logic in `organize_folder` in `src/main.rs`.

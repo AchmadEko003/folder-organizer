@@ -1,6 +1,5 @@
 use std::fs;
 use std::path::Path;
-use clap::{Arg, Command};
 
 fn organize_folder(folder_path: &str) -> std::io::Result<()> {
     let entries = fs::read_dir(folder_path)?;
@@ -34,6 +33,7 @@ fn main() {
 
     std::io::stdin().read_line(&mut input).unwrap();
     let _folder_path = input.trim();
+    
 
     match organize_folder(_folder_path) {
         Ok(_) => println!("Folder organized successfully."),
