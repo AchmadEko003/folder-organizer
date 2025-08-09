@@ -28,7 +28,7 @@ txt/notes.txt
 
 ## Requirements
 - Rust (https://rust-lang.org)
-- Windows, Linux, or macOS
+- Windows, Linux
 
 ## Customization
 You can modify the code to group certain extensions into a single folder by editing the logic in `organize_folder` in `src/main.rs`.

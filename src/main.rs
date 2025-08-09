@@ -20,19 +20,22 @@ fn organize_folder(folder_path: &str) -> std::io::Result<()> {
     Ok(())
 }
 
-fn main() {
-    let matches = Command::new("Folder Organizer Tool")
-        .version("1.0")
-        .author("Madko") // you can change this to your name
-        .about("Organizes files in a folder by extension")
-        .arg(Arg::new("folder")
-            .help("Path to the folder to organize")
-            .required(true)
-            .index(1))
-        .get_matches();
+fn welcome_message() {
+    println!("Welcome to the Folder Organizer Tool!");
+    println!("This tool will help you organize your files by their extension.");
+}
 
-    let folder = matches.get_one::<String>("folder").unwrap();
-    match organize_folder(folder) {
+fn main() {
+    welcome_message();
+
+    let mut input = String::new();
+
+    println!("Please input your folder path to organize:");
+
+    std::io::stdin().read_line(&mut input).unwrap();
+    let _folder_path = input.trim();
+
+    match organize_folder(_folder_path) {
         Ok(_) => println!("Folder organized successfully."),
         Err(e) => eprintln!("Error: {}", e),
     }
