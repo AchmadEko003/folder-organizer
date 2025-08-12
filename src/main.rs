@@ -6,6 +6,7 @@ fn organize_folder(folder_path: &str) -> std::io::Result<()> {
     for entry in entries {
         let entry = entry?;
         let path = entry.path();
+        println!("Processing file: {}", path.display());
         if path.is_file() {
             if let Some(ext) = path.extension().and_then(|e| e.to_str()) {
                 let ext_folder = Path::new(folder_path).join(ext);
@@ -33,7 +34,6 @@ fn main() {
 
     std::io::stdin().read_line(&mut input).unwrap();
     let _folder_path = input.trim();
-    
 
     match organize_folder(_folder_path) {
         Ok(_) => println!("Folder organized successfully."),
