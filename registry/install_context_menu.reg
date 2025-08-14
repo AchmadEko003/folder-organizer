@@ -1,0 +1,8 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\Directory\shell\FolderOrganizer]
+@="Organize with Folder Organizer"
+"Icon"="C:\\vs_project\\folder-organizer\\target\\release\\folder-organizer.exe"
+
+[HKEY_CLASSES_ROOT\Directory\shell\FolderOrganizer\command]
+@="\"C:\\vs_project\\folder-organizer\\target\\release\\folder-organizer.exe\" \"%1\""

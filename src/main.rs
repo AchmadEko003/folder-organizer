@@ -1,5 +1,7 @@
 use std::fs;
 use std::path::Path;
+mod utils;
+use utils::get_path_right_click;
 
 fn organize_folder(folder_path: &str) -> std::io::Result<()> {
     let entries = fs::read_dir(folder_path)?;
@@ -27,15 +29,22 @@ fn welcome_message() {
 
 fn main() {
     welcome_message();
+    
+    let folder_path = if let Some(path) = get_path_right_click() {
+        path
+    } else {
+        println!("Please input your folder path to organize:");
+        let mut input = String::new();
+        std::io::stdin().read_line(&mut input).unwrap();
+        input.trim().to_string()
+    };
 
-    let mut input = String::new();
+    if folder_path.is_empty() {
+        eprintln!("No folder path provided.");
+        return;
+    }
 
-    println!("Please input your folder path to organize:");
-
-    std::io::stdin().read_line(&mut input).unwrap();
-    let _folder_path = input.trim();
-
-    match organize_folder(_folder_path) {
+    match organize_folder(&folder_path) {
         Ok(_) => println!("Folder organized successfully."),
         Err(e) => eprintln!("Error: {}", e),
     }
