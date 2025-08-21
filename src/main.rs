@@ -11,7 +11,7 @@ fn organize_folder(folder_path: &str) -> std::io::Result<()> {
         println!("Processing file: {}", path.display());
         if path.is_file() {
             if let Some(ext) = path.extension().and_then(|e| e.to_str()) {
-                let ext_folder = Path::new(folder_path).join(ext);
+                let ext_folder = Path::new(folder_path).join(ext.to_lowercase());
                 fs::create_dir_all(&ext_folder)?;
                 let file_name = path.file_name().unwrap();
                 let new_path = ext_folder.join(file_name);
@@ -33,10 +33,12 @@ fn main() {
     let folder_path = if let Some(path) = get_path_right_click() {
         path
     } else {
-        println!("Please input your folder path to organize:");
+        println!("Please input your folder path or you can drag and drop a folder to organize:");
         let mut input = String::new();
         std::io::stdin().read_line(&mut input).unwrap();
-        input.trim().to_string()
+        let mut input_result = input.trim().to_string();
+        input_result.retain(|c| c != '\'' && c != '"');
+        input_result
     };
 
     if folder_path.is_empty() {
