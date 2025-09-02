@@ -2,6 +2,8 @@ use std::fs;
 use std::path::Path;
 mod utils;
 use utils::get_path_right_click;
+use utils::is_document_file;
+use utils::is_image_file;
 
 fn organize_folder(folder_path: &str) -> std::io::Result<()> {
     let entries = fs::read_dir(folder_path)?;
@@ -12,6 +14,9 @@ fn organize_folder(folder_path: &str) -> std::io::Result<()> {
         if path.is_file() {
             if let Some(ext) = path.extension().and_then(|e| e.to_str()) {
                 let ext_folder = Path::new(folder_path).join(ext.to_lowercase());
+                
+                if is_image_file(ext) {}
+
                 fs::create_dir_all(&ext_folder)?;
                 let file_name = path.file_name().unwrap();
                 let new_path = ext_folder.join(file_name);
