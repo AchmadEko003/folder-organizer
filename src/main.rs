@@ -2,8 +2,7 @@ use std::fs;
 use std::path::Path;
 mod utils;
 use utils::get_path_right_click;
-use utils::is_document_file;
-use utils::is_image_file;
+use utils::{is_document_file, is_image_file, is_video_file};
 
 fn organize_folder(folder_path: &str) -> std::io::Result<()> {
     let entries = fs::read_dir(folder_path)?;
@@ -13,9 +12,20 @@ fn organize_folder(folder_path: &str) -> std::io::Result<()> {
         println!("Processing file: {}", path.display());
         if path.is_file() {
             if let Some(ext) = path.extension().and_then(|e| e.to_str()) {
-                let ext_folder = Path::new(folder_path).join(ext.to_lowercase());
-                
-                if is_image_file(ext) {}
+                // let ext_folder = Path::new(folder_path).join(ext.to_lowercase());
+                let mut ext_folder = Path::new(folder_path).to_path_buf();
+
+                let ext_info: String = ext.to_lowercase();
+
+                if is_image_file(&ext_info) {
+                    ext_folder = ext_folder.join(format!("images/{}", ext_info));
+                } else if is_document_file(&ext_info) {
+                    ext_folder = ext_folder.join(format!("documents/{}", ext_info));
+                } else if is_video_file(&ext_info) {
+                    ext_folder = ext_folder.join(format!("videos/{}", ext_info));
+                } else {
+                    ext_folder = ext_folder.join(format!("others/{}", ext_info));
+                }
 
                 fs::create_dir_all(&ext_folder)?;
                 let file_name = path.file_name().unwrap();
@@ -55,7 +65,4 @@ fn main() {
         Ok(_) => println!("Folder organized successfully."),
         Err(e) => eprintln!("Error: {}", e),
     }
-    
-    println!("Closing in 5 seconds...");
-    std::thread::sleep(std::time::Duration::from_secs(3));
 }
